@@ -27,7 +27,7 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-  const listOfVideos = ["mYfJxlgR2jw", "4zH5iYM4wJo", "KCPEHsAViiQ"];
+  const listOfVideos = ["jiJu4K2jems", "1VIZ89FEjYI", "TcMBFSGVi1c"];
   const paths = listOfVideos.map((videoId) => ({
     params: { videoId },
   }));
@@ -108,14 +108,14 @@ const Video = ({ video }) => {
         overlayClassName={styles.overlay}
       >
         <iframe
-          id="ytplayer"
           className={styles.videoPlayer}
+          id="ytplayer"
           type="text/html"
           width="100%"
           height="360"
-          src={`https://www.youtube.com/embed/${videoId}?autoplay=0&origin=http://example.com&controls=0&rel=1`}
+          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&controls=0&rel=1`}
           frameBorder="0"
-        ></iframe>
+        />
 
         <div className={styles.likeDislikeBtnWrapper}>
           <div className={styles.likeBtnWrapper}>

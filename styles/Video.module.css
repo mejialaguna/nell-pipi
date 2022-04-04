@@ -74,6 +74,7 @@
 .description {
   margin-bottom: 0.5rem /* 8px */;
   margin-top: 0.75rem /* 12px */;
+  text-align: justify;
 }
 
 .col2 {
@@ -106,8 +107,8 @@
 @media (min-width: 1024px) {
   .modal {
     top: 10%;
-    bottom: 40px;
-    width: 50%;
+    bottom:40px;
+    width: 60%;
   }
 }
 
