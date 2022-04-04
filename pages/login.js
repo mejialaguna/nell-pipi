@@ -42,7 +42,7 @@ const Login = () => {
        try {
          setLoading(true);
 
-         const didToken = await magicLink.auth.loginWithMagicLink({
+         const didToken = await magic.auth.loginWithMagicLink({
            email,
          });
          if (didToken) {
