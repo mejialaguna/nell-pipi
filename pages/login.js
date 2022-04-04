@@ -5,11 +5,9 @@ import Head from "next/head";
 import Image from "next/image";
 
 import { magic } from "../lib/magic-client";
-
 import styles from "../styles/Login.module.css";
 
-const regex =
-  /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+var validator = require("email-validator");
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -40,7 +38,9 @@ const Login = () => {
   };
 
   function validateEmail(email) {
-    if (regex.test(email)) {
+   const valid = validator.validate(email);
+    console.log({valid})
+    if (validator) {
       SetIsValid(true);
     } else {
       SetIsValid(false);
