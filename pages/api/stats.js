@@ -5,52 +5,56 @@ import {
 } from "../../lib/db/hasura";
 import { verifyToken } from "../../lib/utils";
 
-export default async function stats(req, resp) {
+async function stats(req, res) {
+  const token = req.cookies.token;
+  const userId = await verifyToken(token);
+
+  const inquirer = req.method === "POST" ? req.body : req.query;
+  const { favorite, watched = true, videoId } = inquirer;
+
   try {
-    const token = req.cookies.token;
-    if (!token) {
-      resp.status(403).send({});
-    } else {
-      const inputParams = req.method === "POST" ? req.body : req.query;
-      const { videoId } = inputParams;
+    if (token) {
       if (videoId) {
-        const userId = await verifyToken(token);
         const findVideo = await findVideoIdByUser(token, userId, videoId);
-        const doesStatsExist = findVideo?.length > 0;
+        const videoExist = findVideo?.length > 0; // check if video exist to run update stats if not it will create one
 
         if (req.method === "POST") {
-          const { favourited, watched = true } = req.body;
-          if (doesStatsExist) {
-            // update it
+          if (videoExist) {
             const response = await updateStats(token, {
-              watched,
+              favorite,
               userId,
+              watched,
               videoId,
-              favourited,
             });
-            resp.send({ data: response });
+            res.send({ response });
           } else {
-            // add it
             const response = await insertStats(token, {
               watched,
               userId,
               videoId,
-              favourited,
+              favorite,
             });
-            resp.send({ data: response });
+            res.send({ data: response });
           }
         } else {
-          if (doesStatsExist) {
-            resp.send(findVideo);
+          if (videoExist) {
+            res.send(findVideo);
           } else {
-            resp.status(404);
-            resp.send({ user: null, msg: "Video not found" });
+            res.status(404);
+            res.send({ user: null, message: "video not found" });
           }
         }
+      } else {
+        res.status(500).send({ message: "videoId is needed" });
       }
+    } else {
+      res.status(403);
+      res.send({ message: "not working token is needed or broken" });
     }
   } catch (error) {
-    console.error("Error occurred /stats", error);
-    resp.status(500).send({ done: false, error: error?.message });
+    console.error({ message: "error has ocurred /stats", error });
+    res.status(500).send({ done: false, error: error.message });
   }
 }
+
+export default stats;

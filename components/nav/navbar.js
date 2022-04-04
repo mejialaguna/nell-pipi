@@ -13,17 +13,20 @@ const NavBar = () => {
   const [didToken, setDidToken] = useState("");
   const router = useRouter();
 
-  useEffect(async () => {
-    try {
-      const { email, issuer } = await magic.user.getMetadata();
-      const didToken = await magic.user.getIdToken();
-      if (email) {
-        setUsername(email);
-        setDidToken(didToken);
-      }
-    } catch (error) {
-      console.error("Error retrieving email", error);
+  useEffect( () => {
+    async function getMetadata() {
+      try {
+        const { email, issuer } = await magic.user.getMetadata();
+        const didToken = await magic.user.getIdToken();
+        if (email) {
+          setUsername(email);
+          setDidToken(didToken);
+        }
+      } catch (error) {
+        console.error("Error retrieving email", error);
+      }      
     }
+    getMetadata()
   }, []);
 
   const handleOnClickHome = (e) => {
@@ -63,17 +66,18 @@ const NavBar = () => {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        <a className={styles.logoLink} href="/">
-          <div className={styles.logoWrapper}>
-            <Image
-              src="/static/netflix.svg"
-              alt="Netflix logo"
-              width="128px"
-              height="34px"
-            />
-          </div>
-        </a>
-
+        <Link href="/">
+          <a className={styles.logoLink}>
+            <div className={styles.logoWrapper}>
+              <Image
+                src="/static/netflix.svg"
+                alt="Netflix logo"
+                width="128px"
+                height="34px"
+              />
+            </div>
+          </a>
+        </Link>
         <ul className={styles.navItems}>
           <li className={styles.navItem} onClick={handleOnClickHome}>
             Home

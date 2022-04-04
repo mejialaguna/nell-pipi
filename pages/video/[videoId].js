@@ -50,42 +50,54 @@ const Video = ({ video }) => {
     statistics: { viewCount } = { viewCount: 0 },
   } = video;
 
-  useEffect(async () => {
-    const response = await fetch(`/api/stats?videoId=${videoId}`, {
-      method: "GET",
-    });
-    const data = await response.json();
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch(`/api/stats?videoId=${videoId} `, {
+        method: "GET", // GET method cant have body , to request info have to come from the query line 56
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
 
-    if (data.length > 0) {
-      const favourited = data[0].favourited;
-      if (favourited === 1) {
-        setToggleLike(true);
-      } else if (favourited === 0) {
-        setToggleDisLike(true);
+      if (data.length > 0) {
+        const favorite = data[0].favorite;
+        if (favorite >= 1) {
+          setToggleLike(true);
+        } else {
+          setToggleDisLike(true);
+        }
       }
-    }
-  }, []);
 
-  const runRatingService = async (favourited) => {
-    return await fetch("/api/stats", {
+      return data;
+    }
+
+    fetchData();
+  }, [videoId]);
+
+  async function runRatingService(favorite) {
+    const response = await fetch("/api/stats", {
       method: "POST",
       body: JSON.stringify({
-        videoId,
-        favourited,
+        // updating an object into a json object
+        favorite: favorite,
+        videoId: videoId,
       }),
       headers: {
         "Content-Type": "application/json",
       },
     });
-  };
+
+    return response;
+  }
 
   const handleToggleDislike = async () => {
     setToggleDisLike(!toggleDisLike);
     setToggleLike(toggleDisLike);
 
     const val = !toggleDisLike;
-    const favourited = val ? 0 : 1;
-    const response = await runRatingService(favourited);
+    const favorite = val ? 0 : 1;
+    const response = await runRatingService(favorite);
   };
 
   const handleToggleLike = async () => {
@@ -93,8 +105,8 @@ const Video = ({ video }) => {
     setToggleLike(val);
     setToggleDisLike(toggleLike);
 
-    const favourited = val ? 1 : 0;
-    const response = await runRatingService(favourited);
+    const favorite = val ? 1 : 0;
+    const response = await runRatingService(favorite);
   };
 
   return (

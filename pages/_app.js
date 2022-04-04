@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { magic } from "../lib/magic-client";
 import "../styles/globals.css";
 
-import Loading from "../components/loading/loading";
+import Loading from "../components/loading"
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
