@@ -10,6 +10,17 @@ export async function getServerSideProps(context) {
   const { userId, token } = await useRedirectUser(context);
   const videos = await getMyList(userId, token);
 
+  
+  if (!token) {
+    return {
+      props: {},
+      redirect: {
+        destination: "/login", // using next.js middleware instead of this
+        permanent: false,
+      },
+    };
+  }
+
   return {
     props: {
       myListVideos: videos,
