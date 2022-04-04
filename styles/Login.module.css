@@ -26,6 +26,11 @@
   display: flex;
 }
 
+.disabled {
+  opacity: 0.5;
+}
+
+
 .logoLink {
   display: flex;
   font-weight: 500;
