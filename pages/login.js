@@ -8,8 +8,12 @@ import { magic } from "../lib/magic-client";
 
 import styles from "../styles/Login.module.css";
 
+const regex =
+  /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
 const Login = () => {
   const [email, setEmail] = useState("");
+  const [isValid, SetIsValid] = useState(false);
   const [userMsg, setUserMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -29,15 +33,24 @@ const Login = () => {
   }, [router]);
 
   const handleOnChangeEmail = (e) => {
-    setUserMsg("");
     const email = e.target.value;
+    validateEmail(email);
     setEmail(email);
+    setUserMsg("");
   };
 
-   const handleLogin = async (e) => {
-     e.preventDefault();
+  function validateEmail(email) {
+    if (regex.test(email)) {
+      SetIsValid(true);
+    } else {
+      SetIsValid(false);
+    }
+  }
 
-     if (email) {
+  const handleLoginWithEmail = async (e) => {
+    e.preventDefault();
+
+     if (email && isValid) {
        // log in a user by their email
        try {
          setIsLoading(true);
@@ -72,9 +85,7 @@ const Login = () => {
        setIsLoading(false);
        setUserMsg("Enter a valid email address");
      }
-   };
-
-
+  };
   return (
     <div className={styles.container}>
       <Head>
@@ -108,7 +119,7 @@ const Login = () => {
           />
 
           <p className={styles.userMsg}>{userMsg}</p>
-          <button onClick={handleLogin} className={styles.loginBtn}>
+          <button onClick={handleLoginWithEmail} className={styles.loginBtn}>
             {isLoading ? "Loading..." : "Sign In"}
           </button>
         </div>
