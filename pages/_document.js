@@ -6,10 +6,18 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+          <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossOrigin="anonymous"
+          />
           <link
             href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap"
             rel="stylesheet"
+          />
+          <link
+            rel="icon"
+            href="https://img.icons8.com/fluency/48/000000/netflix-desktop-app.png"
           />
         </Head>
         <body>
