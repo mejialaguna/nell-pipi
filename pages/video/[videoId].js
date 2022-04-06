@@ -113,9 +113,12 @@ const Video = ({ video }) => {
           type="text/html"
           width="100%"
           height="360"
-          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&controls=0&rel=1`}
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=1`}
           frameBorder="0"
         />
+        
 
         <div className={styles.likeDislikeBtnWrapper}>
           <div className={styles.likeBtnWrapper}>

@@ -82,7 +82,7 @@ export default function Home({
             videos={marvelMovies}
             size="medium"
           />
-          <SectionCards title="Popular" videos={popular} size="small" />
+          <SectionCards title="" videos={popular} size="small" />
         </div>
       </div>
     </div>

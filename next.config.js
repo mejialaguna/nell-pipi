@@ -7,6 +7,7 @@ module.exports = {
       "m.media-amazon.com",
       "www.cheatsheet.com",
       "yt3.ggpht.com",
+      "images.unsplash.com",
     ],
   },
   eslint: {
