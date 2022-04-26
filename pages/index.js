@@ -47,7 +47,7 @@ export async function getServerSideProps(context) {
 
 export default function Home({
   disneyVideos,
-  popular,
+  Popular,
   bestAnime,
   marvelMovies,
   watchAgainVideos,
@@ -82,7 +82,7 @@ export default function Home({
             videos={marvelMovies}
             size="medium"
           />
-          <SectionCards title="" videos={popular} size="small" />
+          <SectionCards title="popular" videos={Popular} size="small" />
         </div>
       </div>
     </div>
